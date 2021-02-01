@@ -1,0 +1,5 @@
+name: DynamicProxy
+main: me.drepic.dynamicproxy.DynamicProxyBungee
+author: Drepic
+version: 1.0
+depends: ["Proton"]

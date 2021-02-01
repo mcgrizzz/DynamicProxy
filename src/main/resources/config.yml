@@ -1,0 +1,10 @@
+#host, port, id are in the config so you can use ENV_VARs to set them (useful for docker deployments)
+#requestTimeout in seconds
+requestTimeout: 10
+bungeeClientId: "proxy"
+secret: "secret"
+id: "lobby1"
+host: "localhost"
+port: 25565
+motd: "I was just dynamically added to the network"
+restricted: false

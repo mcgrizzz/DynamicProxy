@@ -1,0 +1,6 @@
+name: DynamicProxy
+main: me.drepic.dynamicproxy.DynamicProxyBukkit
+author: Drepic
+version: 1.0
+depend:
+  - Proton
