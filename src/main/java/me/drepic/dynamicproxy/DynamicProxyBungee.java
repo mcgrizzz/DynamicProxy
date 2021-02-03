@@ -43,21 +43,18 @@ public class DynamicProxyBungee extends Plugin implements Listener {
     @MessageHandler(namespace = NAMESPACE, subject = REQUEST_SUBJECT)
     public void onServerAddRequest(ServerAddRequest request, MessageAttributes attributes) {
         getLogger().info("Server has requested adoption: " + request.toString());
+
+        String sender = attributes.getSenderName();
         if (!request.getSecret().equals(secret)) {
-            this.manager.send(
-                    NAMESPACE,
-                    ACKED_SUBJECT,
-                    "Secret is incorrect",
-                    attributes.getSenderName());
+            this.sendAcknowledgement("Secret is incorrect", sender);
             return;
         }
 
+
+        String serverID = request.getID();
+
         if (this.getProxy().getServers().containsKey(request.getID())) {
-            this.manager.send(
-                    NAMESPACE,
-                    ACKED_SUBJECT,
-                    String.format("Server of name `%s` already registered with proxy.", request.getID()),
-                    attributes.getSenderName());
+            this.sendAcknowledgement(String.format("Server of name `%s` already registered with proxy.", serverID), sender);
             return;
         }
 
@@ -69,7 +66,11 @@ public class DynamicProxyBungee extends Plugin implements Listener {
 
         this.getProxy().getServers().put(info.getName(), info);
         getLogger().info(String.format("%s has been added to the proxy.", request.getID()));
-        this.manager.send(NAMESPACE, ACKED_SUBJECT, "Added to proxy.", attributes.getSenderName());
+        this.sendAcknowledgement("Added to proxy.", sender);
+    }
+
+    private void sendAcknowledgement(String message, String senderName){
+        this.manager.send(NAMESPACE, ACKED_SUBJECT, message, senderName);
     }
 
     private void saveDefaultConfig() {
